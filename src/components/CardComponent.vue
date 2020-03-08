@@ -10,10 +10,10 @@
         <div class="media-content">
           <p class="title is-4">Chuck Norris</p>
           <p class="subtitle is-6">
-            <a href="#">
+            <a href="#" @click.prevent="addToFavourites">
               <i class="fas fa-star" aria-hidden="true"></i> Add to Favourites
             </a>
-            <a href="#">
+            <a href="#" @click.prevent="removeFromFavourites">
               <i class="far fa-star" aria-hidden="true"></i> Remove from Favourites
             </a>
           </p>
@@ -31,6 +31,14 @@ export default {
     fact: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    addToFavourites() {
+      this.$store.dispatch("addToFavourites", this.fact);
+    },
+    removeFromFavourites() {
+      this.$store.dispatch("removeFromFavourites", this.fact.id);
     }
   }
 };
