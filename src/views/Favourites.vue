@@ -1,5 +1,7 @@
 <template>
-  <div class="favourites">
-    <h1>This is an favourites page</h1>
-  </div>
+  <section class="section favourites">
+    <div class="container">
+      <h1>This is an favourits page</h1>
+    </div>
+  </section>
 </template>

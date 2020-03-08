@@ -1,8 +1,10 @@
 <template>
-  <div class="home">
-    <h1>Chuck Norris jokes</h1>
-    <ChuckCategories />
-  </div>
+  <section class="section home">
+    <div class="container">
+      <h1 class="title">Chuck Norris jokes</h1>
+      <ChuckCategories />
+    </div>
+  </section>
 </template>
 
 <script>

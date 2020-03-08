@@ -5,9 +5,11 @@
         <a @click.prevent="() => fetchFacts(category)">{{ category }}</a>
       </li>
     </ul>
-    <div v-for="fact of state.facts" :key="fact.id">
-      <img :src="fact.icon_url" alt="Chuck Norris icon" />
-      <p>{{ fact.value }}</p>
+    <div class="columns is-block">
+      <p v-if="state.loading">Loading...</p>
+      <div v-for="fact of state.facts" :key="fact.id" class="column">
+        <CardComponent :fact="fact" />
+      </div>
     </div>
   </div>
 </template>
@@ -15,8 +17,12 @@
 <script>
 import { reactive, onMounted } from "@vue/composition-api";
 import axios from "axios";
+import CardComponent from "./CardComponent.vue";
 
 export default {
+  components: {
+    CardComponent
+  },
   setup() {
     const { state, fetchCategories, fetchFacts } = useCategoriesFetch();
     return {
@@ -51,7 +57,7 @@ function useCategoriesFetch() {
     const url = `https://api.chucknorris.io/jokes/random?category=${category}`;
     let arrLen = facts.length;
     let errorLen = 0;
-    while (arrLen < 3 && errorLen < 5) {
+    while (arrLen < 3 && errorLen < 7) {
       await axios
         .get(url)
         .then(result => {
@@ -65,6 +71,7 @@ function useCategoriesFetch() {
         })
         .catch(err => console.log("Error", err));
     }
+    state.loading = false;
     state.facts = facts;
   }
 
@@ -82,5 +89,10 @@ function useCategoriesFetch() {
 ul > li {
   display: inline;
   margin: 0 10px;
+
+  a {
+    padding: 10px;
+    display: inline-block;
+  }
 }
 </style>
