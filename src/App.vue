@@ -31,14 +31,14 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding: 30px 10px 10px;
 
   a {
     font-weight: bold;
     color: #2c3e50;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: hsl(171, 100%, 41%);
     }
   }
 }

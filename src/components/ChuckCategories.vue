@@ -13,7 +13,11 @@
           </a>
         </li>
       </ul>
-      <button @click="state.showCategories = !state.showCategories" class="button button--toggle">
+      <button
+        @click="state.showCategories = !state.showCategories"
+        class="button button--toggle is-white"
+        title="Show more categories"
+      >
         <span v-show="state.showCategories">
           <i class="fas fa-chevron-up" aria-hidden="true"></i>
         </span>
@@ -23,7 +27,9 @@
       </button>
     </div>
     <div class="columns is-block">
-      <p v-show="state.loading">Loading...</p>
+      <p v-show="state.loading">
+        <span class="button button--toggle is-secondary is-loading is-white">Loading...</span>
+      </p>
       <div v-show="!state.loading && !state.facts.length">
         <p class="content">Please choose a category from above...</p>
       </div>
@@ -143,7 +149,6 @@ function useCategoriesFetch() {
   }
 
   .button--toggle {
-    border: none;
     position: absolute;
     top: 0;
     right: 0;

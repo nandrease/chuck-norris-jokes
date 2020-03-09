@@ -3,7 +3,7 @@
     <div class="container">
       <h1 class="title">These are your favourite Chuck Norris jokes:</h1>
       <div v-show="!this.favourites.length">
-        <p>Please select your favourite <router-link to="/">Chuck Norris jokes</router-link> first.</p>
+        <p>Please select your favourite <router-link to="/" class="has-text-primary">Chuck Norris jokes</router-link> first.</p>
       </div>
       <div class="columns is-block">
         <div v-for="favourite of this.favourites" :key="favourite.id" class="column">
