@@ -30,7 +30,10 @@
         </div>
       </div>
 
-      <div class="subtitle has-text-left" :class="{ 'has-text-light': inFavourites }">{{ fact.value }}</div>
+      <div
+        class="subtitle has-text-left"
+        :class="{ 'has-text-light': inFavourites }"
+      >{{ fact.value }}</div>
     </div>
   </div>
 </template>
@@ -56,7 +59,7 @@ export default {
       return this.$store.state.favourites;
     },
     inFavourites() {
-      return this.favourites.includes(this.fact);
+      return this.favourites.find(item => item.id === this.fact.id);
     }
   }
 };
