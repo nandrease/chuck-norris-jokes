@@ -3,14 +3,13 @@
     <div class="content">
       <ul :class="state.showCategories ? 'openCategories' : 'hideCategories'">
         <li v-for="category of state.categories" :key="category">
-          <a
-            @click.prevent="() => fetchFacts(category)"
-            class="button"
-            :class="[category === state.currentCategory ? 'is-primary' : 'is-light']"
-          >
-            {{ category }}
-            <TagCount :category="category" />
-          </a>
+          <ChuckCategory
+            @click.native.prevent="() => fetchFacts(category)"
+            :category="category"
+            :class="[
+              category === state.currentCategory ? 'is-primary' : 'is-light'
+            ]"
+          />
         </li>
       </ul>
       <button
@@ -28,13 +27,15 @@
     </div>
     <div class="columns is-block">
       <p v-show="state.loading">
-        <span class="button button--toggle is-secondary is-loading is-white">Loading...</span>
+        <span class="button button--toggle is-secondary is-loading is-white"
+          >Loading...</span
+        >
       </p>
       <div v-show="!state.loading && !state.facts.length">
         <p class="content">Please choose a category from above...</p>
       </div>
       <div v-for="fact of state.facts" :key="fact.id" class="column">
-        <CardComponent :fact="fact" />
+        <ChuckCard :fact="fact" />
       </div>
     </div>
   </div>
@@ -43,13 +44,13 @@
 <script>
 import { reactive, onMounted } from "@vue/composition-api";
 import axios from "axios";
-import CardComponent from "./CardComponent.vue";
-import TagCount from "./TagCount.vue";
+import ChuckCard from "./ChuckCard.vue";
+import ChuckCategory from "./ChuckCategory.vue";
 
 export default {
   components: {
-    CardComponent,
-    TagCount
+    ChuckCard,
+    ChuckCategory
   },
   methods: {
     favouritesCount(name) {

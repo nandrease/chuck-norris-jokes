@@ -12,7 +12,9 @@ export default new Vuex.Store({
     favouritesCount(state) {
       return state.favourites.reduce((counter, item) => {
         let p = item.categories;
-        counter[p] = Object.prototype.hasOwnProperty.call(counter, p) ? counter[p] + 1 : 1;
+        counter[p] = Object.prototype.hasOwnProperty.call(counter, p)
+          ? counter[p] + 1
+          : 1;
         return counter;
       }, {});
     },
@@ -30,17 +32,20 @@ export default new Vuex.Store({
   },
   actions: {
     addToFavourites({ commit, state }, joke) {
-      const existsInFavourites = state.favourites.find(item => item.id === joke.id);
+      const existsInFavourites = state.favourites.find(
+        item => item.id === joke.id
+      );
       if (!existsInFavourites) {
         commit(ADD_TO_FAVOURITES, joke);
       }
     },
     removeFromFavourites({ commit, state }, jokeId) {
-      const existsInFavourites = state.favourites.find(item => item.id === jokeId);
+      const existsInFavourites = state.favourites.find(
+        item => item.id === jokeId
+      );
       if (existsInFavourites) {
         commit(REMOVE_FROM_FAVOURITES, jokeId);
       }
     }
-  },
-  modules: {}
+  }
 });

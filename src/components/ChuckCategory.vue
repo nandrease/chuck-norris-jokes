@@ -1,5 +1,10 @@
 <template>
-  <span v-if="favouritesCount" class="tag is-dark">{{ favouritesCount }}</span>
+  <a class="button">
+    {{ category }}
+    <span v-if="favouritesCount" class="tag is-dark">{{
+      favouritesCount
+    }}</span>
+  </a>
 </template>
 
 <script>
