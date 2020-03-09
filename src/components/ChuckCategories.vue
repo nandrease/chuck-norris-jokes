@@ -1,12 +1,32 @@
 <template>
   <div class="hello">
-    <ul>
-      <li v-for="category of state.categories" :key="category">
-        <a @click.prevent="() => fetchFacts(category)">{{ category }}</a>
-      </li>
-    </ul>
+    <div class="content">
+      <ul :class="state.showCategories ? 'openCategories' : 'hideCategories'">
+        <li v-for="category of state.categories" :key="category">
+          <a
+            @click.prevent="() => fetchFacts(category)"
+            class="button"
+            :class="[category === state.currentCategory ? 'is-primary' : 'is-light']"
+          >
+            {{ category }}
+            <TagCount :category="category" />
+          </a>
+        </li>
+      </ul>
+      <button @click="state.showCategories = !state.showCategories" class="button button--toggle">
+        <span v-show="state.showCategories">
+          <i class="fas fa-chevron-up" aria-hidden="true"></i>
+        </span>
+        <span v-show="!state.showCategories">
+          <i class="fas fa-chevron-down" aria-hidden="true"></i>
+        </span>
+      </button>
+    </div>
     <div class="columns is-block">
-      <p v-if="state.loading">Loading...</p>
+      <p v-show="state.loading">Loading...</p>
+      <div v-show="!state.loading && !state.facts.length">
+        <p class="content">Please choose a category from above...</p>
+      </div>
       <div v-for="fact of state.facts" :key="fact.id" class="column">
         <CardComponent :fact="fact" />
       </div>
@@ -18,10 +38,17 @@
 import { reactive, onMounted } from "@vue/composition-api";
 import axios from "axios";
 import CardComponent from "./CardComponent.vue";
+import TagCount from "./TagCount.vue";
 
 export default {
   components: {
-    CardComponent
+    CardComponent,
+    TagCount
+  },
+  methods: {
+    favouritesCount(name) {
+      return this.$store.getters.favouritesCount[name];
+    }
   },
   setup() {
     const { state, fetchCategories, fetchFacts } = useCategoriesFetch();
@@ -36,9 +63,10 @@ export default {
 function useCategoriesFetch() {
   let state = reactive({
     categories: [],
-    category: null,
+    currentCategory: null,
     loading: false,
-    facts: []
+    facts: [],
+    showCategories: false
   });
 
   function fetchCategories() {
@@ -53,6 +81,7 @@ function useCategoriesFetch() {
   async function fetchFacts(category) {
     state.facts = [];
     state.loading = true;
+    state.currentCategory = category;
     const facts = [];
     const url = `https://api.chucknorris.io/jokes/random?category=${category}`;
     let arrLen = facts.length;
@@ -72,6 +101,7 @@ function useCategoriesFetch() {
         .catch(err => console.log("Error", err));
     }
     state.loading = false;
+    state.showCategories = false;
     state.facts = facts;
   }
 
@@ -85,14 +115,39 @@ function useCategoriesFetch() {
 }
 </script>
 
-<style lang="scss">
-ul > li {
-  display: inline;
-  margin: 0 10px;
+<style lang="scss" scoped>
+.content {
+  position: relative;
 
-  a {
-    padding: 10px;
-    display: inline-block;
+  ul {
+    margin: 0;
+    overflow: hidden;
+    margin-right: 50px;
+
+    &.hideCategories {
+      max-height: 50px;
+    }
+    &.openCategories {
+      max-height: 300px;
+    }
+
+    & > li {
+      display: inline-block;
+      margin: 4px 10px;
+
+      a {
+        padding: 10px;
+        display: inline-flex;
+      }
+    }
+  }
+
+  .button--toggle {
+    border: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 4px 0;
   }
 }
 </style>

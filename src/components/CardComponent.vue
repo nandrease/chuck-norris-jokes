@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{ 'has-background-dark has-text-light': inFavourites }">
     <div class="card-content">
       <div class="media">
         <div class="media-left">
@@ -8,19 +8,29 @@
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">Chuck Norris</p>
+          <p class="title is-4" :class="{ 'has-text-light': inFavourites }">Chuck Norris</p>
           <p class="subtitle is-6">
-            <a href="#" @click.prevent="addToFavourites">
-              <i class="fas fa-star" aria-hidden="true"></i> Add to Favourites
+            <a
+              v-show="inFavourites"
+              href="#"
+              @click.prevent="removeFromFavourites"
+              class="has-text-danger"
+            >
+              <i class="fas fa-star" aria-hidden="true"></i> Remove from Favourites
             </a>
-            <a href="#" @click.prevent="removeFromFavourites">
-              <i class="far fa-star" aria-hidden="true"></i> Remove from Favourites
+            <a
+              v-show="!inFavourites"
+              href="#"
+              @click.prevent="addToFavourites"
+              class="has-text-success"
+            >
+              <i class="far fa-star" aria-hidden="true"></i> Add to Favourites
             </a>
           </p>
         </div>
       </div>
 
-      <div class="subtitle">{{ fact.value }}</div>
+      <div class="subtitle has-text-left" :class="{ 'has-text-light': inFavourites }">{{ fact.value }}</div>
     </div>
   </div>
 </template>
@@ -39,6 +49,14 @@ export default {
     },
     removeFromFavourites() {
       this.$store.dispatch("removeFromFavourites", this.fact.id);
+    }
+  },
+  computed: {
+    favourites() {
+      return this.$store.state.favourites;
+    },
+    inFavourites() {
+      return this.favourites.includes(this.fact);
     }
   }
 };

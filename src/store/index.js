@@ -8,6 +8,18 @@ export default new Vuex.Store({
   state: {
     favourites: []
   },
+  getters: {
+    favouritesCount(state) {
+      return state.favourites.reduce((counter, item) => {
+        let p = item.categories;
+        counter[p] = Object.prototype.hasOwnProperty.call(counter, p) ? counter[p] + 1 : 1;
+        return counter;
+      }, {});
+    },
+    totalFavourites(state) {
+      return state.favourites.length;
+    }
+  },
   mutations: {
     ADD_TO_FAVOURITES(state, item) {
       state.favourites.push(item);

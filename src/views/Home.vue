@@ -1,7 +1,7 @@
 <template>
   <section class="section home">
     <div class="container">
-      <h1 class="title">Chuck Norris jokes</h1>
+      <h1 class="title">Choose your favourite Chuck Norris joke</h1>
       <ChuckCategories />
     </div>
   </section>
@@ -16,3 +16,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.section {
+  padding: 1.5rem;
+}
+</style>
